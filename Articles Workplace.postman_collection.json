@@ -1,0 +1,30 @@
+{
+	"info": {
+		"_postman_id": "7a6d2ee6-18c2-4266-b894-6811c72ecf05",
+		"name": "Articles Workplace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20377053"
+	},
+	"item": [
+		{
+			"name": "List Artcles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

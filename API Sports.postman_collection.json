@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "2bf797a2-6f65-44b5-b240-9538c1305807",
+		"name": "API Sports",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20377053"
+	},
+	"item": [
+		{
+			"name": "List all sports league",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1600 ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1600);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Body matches leagues string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"leagues\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Valid the 2nd league name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.leagues[1].strLeague).to.eql(\"English League Championship\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.thesportsdb.com/api/v1/json/3/all_leagues.php",
+					"protocol": "https",
+					"host": [
+						"www",
+						"thesportsdb",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"json",
+						"3",
+						"all_leagues.php"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List teams by country and sport",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"country\", pm.variables.replaceIn('{{$randomCountry}}'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"IDs are not null\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    for (var i = 0; i < jsonData.teams.length; i++) {\r",
+							"        pm.expect(jsonData.teams[i].idTeam).to.not.equal(null);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?s=Soccer&c={{country}}",
+					"protocol": "https",
+					"host": [
+						"www",
+						"thesportsdb",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"json",
+						"3",
+						"search_all_teams.php"
+					],
+					"query": [
+						{
+							"key": "s",
+							"value": "Soccer"
+						},
+						{
+							"key": "c",
+							"value": "{{country}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List players by name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"English description text contains 'Leo'\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.player[0].strDescriptionEN).to.contains(\"Leo\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Team field is string type\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(typeof jsonData.player[0].strTeam).to.equal('string');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=messi",
+					"protocol": "https",
+					"host": [
+						"www",
+						"thesportsdb",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"json",
+						"3",
+						"searchplayers.php"
+					],
+					"query": [
+						{
+							"key": "p",
+							"value": "messi"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
